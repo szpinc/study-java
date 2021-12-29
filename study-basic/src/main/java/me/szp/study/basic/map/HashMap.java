@@ -1,115 +1,100 @@
 package me.szp.study.basic.map;
 
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * @author sunzp
  * @since 2021/12/8 4:55 下午
  */
 public class HashMap<K, V> implements Map<K, V> {
 
-    private Object[] entries;
+    private int size;
 
-    public HashMap() {
-        this(10);
-    }
+    private HashMap.Node<K, V>[] table;
 
-    public HashMap(int initSize) {
-        entries = new Entry[initSize];
+    @Override
+    public int size() {
+        return 0;
     }
 
     @Override
-    public V get(K key) {
-        int index = key.hashCode() % entries.length;
-        if (index > entries.length - 1 || index < 0) {
-            return null;
-        }
-        return getValue((Entry<K, V>) entries[index], key);
+    public boolean isEmpty() {
+        return false;
     }
 
+    @Override
+    public boolean containsKey(Object key) {
+        return false;
+    }
 
-    private V getValue(Entry<K, V> entry, K key) {
-        if (entry == null) {
-            return null;
-        }
-        Entry<K, V> temp = entry;
-        while (temp != null) {
-            if (key.equals(temp.getKey())) {
-                return temp.value;
-            }
-            temp = temp.next;
-        }
+    @Override
+    public boolean containsValue(Object value) {
+        return false;
+    }
+
+    @Override
+    public V get(Object key) {
         return null;
     }
 
     @Override
-    public void put(K key, V value) {
-        int index = key.hashCode() % entries.length;
-        if (index > entries.length - 1) {
-            resize();
-        }
-        Entry<K, V> entry = (Entry<K, V>) entries[index];
-
-        if (entry == null) {
-            entry = new Entry<>();
-            entry.setKey(key);
-            entry.setValue(value);
-            entries[index] = entry;
-            return;
-        }
-
-        while (entry.next != null) {
-            entry = entry.next;
-        }
-
-        Entry<K, V> newEntry = new Entry<>();
-        newEntry.setKey(key);
-        newEntry.setValue(value);
-        entry.setNext(newEntry);
+    public V put(K key, V value) {
+        return null;
     }
 
     @Override
-    public boolean remove(K key) {
-        return false;
+    public V remove(Object key) {
+        return null;
+    }
+
+    @Override
+    public void putAll(Map<? extends K, ? extends V> m) {
+
+    }
+
+    @Override
+    public void clear() {
+
+    }
+
+    @Override
+    public Set<K> keySet() {
+        return null;
+    }
+
+    @Override
+    public Collection<V> values() {
+        return null;
+    }
+
+    @Override
+    public Set<Map.Entry<K, V>> entrySet() {
+        return null;
+    }
+
+    private int hash(Object key) {
+        int h;
+        return key == null ? 0 : (h = key.hashCode()) ^ h >>> 16;
     }
 
 
-    private void resize() {
-        int newSize = entries.length * 2;
-        Object[] newEntries = new Object[newSize];
-        System.arraycopy(entries, 0, newEntries, 0, entries.length);
-        entries = newEntries;
-    }
+    public static class Node<K, V> implements Map.Entry<K, V> {
 
-
-    public static class Entry<K, V> {
-
-        private K key;
-
-        private V value;
-
-        private Entry<K, V> next;
-
+        @Override
         public K getKey() {
-            return key;
+            return null;
         }
 
-        public void setKey(K key) {
-            this.key = key;
-        }
-
+        @Override
         public V getValue() {
-            return value;
+            return null;
         }
 
-        public void setValue(V value) {
-            this.value = value;
-        }
-
-        public Entry<K, V> getNext() {
-            return next;
-        }
-
-        public void setNext(Entry<K, V> next) {
-            this.next = next;
+        @Override
+        public V setValue(V value) {
+            return null;
         }
     }
 }

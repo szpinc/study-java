@@ -17,7 +17,7 @@ import java.util.List;
 public class AlertLogServiceImpl implements AlertLogService {
 
     private final AlertLogRepository alertLogRepository;
-
+    
     @Override
     public void saveAlertLog(AlertLog alertLog) {
 
