@@ -1,8 +1,10 @@
 package me.szp.study.es.test;
 
+import lombok.extern.slf4j.Slf4j;
 import me.szp.study.es.database.entity.AlertLogEntity;
 import me.szp.study.es.database.repository.AlertLogDao;
 import me.szp.study.es.entity.AlertLog;
+import me.szp.study.es.repository.AlertLogRepository;
 import me.szp.study.es.service.AlertLogService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.BeanUtils;
@@ -10,7 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,12 +28,20 @@ import java.util.stream.Collectors;
  * @since 2021/12/23 12:24 PM
  */
 @SpringBootTest
+@Slf4j
 class AlertLogServiceTests {
 
     @Autowired
     private AlertLogService alertLogService;
     @Autowired
     private AlertLogDao alertLogDao;
+    @Autowired
+    private AlertLogRepository alertLogRepository;
+
+    @Test
+    void getCount () {
+        System.out.println(alertLogRepository.count());
+    }
 
     @Test
     void save() {
@@ -68,6 +85,24 @@ class AlertLogServiceTests {
             }
             index++;
         }
+    }
+
+    @Test
+    public void search() {
+        Page<AlertLog> page = alertLogRepository.findAlertLogsByClusterCode("cluster-9ZdOccDq", Pageable.ofSize(50));
+
+        page.forEach(alertLog -> log.info("LogInfo:{}", log));
+    }
+
+    @Test
+    public void pageList() {
+        Page<AlertLog> page = alertLogRepository.findAll(Pageable.ofSize(10));
+        page.forEach(alertLog -> log.info("AlertLog:{}", alertLog));
+    }
+
+    private Date getDate(LocalDateTime dateTime) {
+        long epochSecond = dateTime.atZone(ZoneId.systemDefault()).toEpochSecond();
+        return new Date(epochSecond);
     }
 
 }

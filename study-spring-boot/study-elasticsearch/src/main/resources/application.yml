@@ -8,3 +8,6 @@ spring:
     uris: http://elasticsearch-logging.cncp.com
     username: elastic
     password: DpyCx8hcTjBQ
+logging:
+  level:
+    root: debug
